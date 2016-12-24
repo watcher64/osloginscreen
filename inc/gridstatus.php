@@ -8,7 +8,7 @@ else {$online = FALSE;}
 // Users count
 $sql = $db->prepare("
     SELECT PrincipalID
-    FROM useraccounts 
+    FROM UserAccounts 
 ");
 $sql->execute();
 $userscounter = $sql->rowCount();
@@ -16,7 +16,7 @@ $userscounter = $sql->rowCount();
 // Regions count
 $sql = $db->prepare("
     SELECT UUID
-    FROM land 
+    FROM land
 ");
 $sql->execute();
 $landscounter = $sql->rowCount();
@@ -24,7 +24,8 @@ $landscounter = $sql->rowCount();
 // Regions Online count
 $sql = $db->prepare("
     SELECT uuid
-    FROM regions 
+    FROM regions
+	WHERE regionName NOT LIKE 'http%'
 ");
 $sql->execute();
 $regionscounter = $sql->rowCount();
@@ -33,7 +34,7 @@ $regionscounter = $sql->rowCount();
 $now = time() - 86400;
 $sql = $db->prepare("
     SELECT UserID
-    FROM griduser 
+    FROM GridUser 
     WHERE Login > ".$now."
 ");
 $sql->execute();
@@ -43,7 +44,7 @@ $lastdayscounter = $sql->rowCount();
 $now = time() - 2419200;
 $sql = $db->prepare("
     SELECT UserID
-    FROM griduser 
+    FROM GridUser 
     WHERE Login > ".$now."
 ");
 $sql->execute();
@@ -52,7 +53,7 @@ $lastmonthscounter = $sql->rowCount();
 // Online now count
 $sql = $db->prepare("
     SELECT UserID
-    FROM presence 
+    FROM Presence 
 ");
 $sql->execute();
 $nowonlinescounter = $sql->rowCount();
@@ -60,17 +61,19 @@ $nowonlinescounter = $sql->rowCount();
 // HG User count
 $zero_uuid = "00000000-0000-0000-0000-000000000000";
 $sql = $db->prepare("
-    SELECT RegionID
-    FROM presence 
-    WHERE RegionID = ".$zero_uuid."
+    SELECT UserID, Online
+    FROM GridUser
+	WHERE UserID LIKE '%http%'
+	AND Online LIKE 'TRUE'
+
 ");
 $sql->execute();
 $hguserscounter = $sql->rowCount();
 
-// Objects count
+ //Objects count
 $sql = $db->prepare("
-    SELECT objectuuid
-    FROM objects 
+    SELECT itemID
+    FROM primitems 
 ");
 $sql->execute();
 $objectscounter = $sql->rowCount();
@@ -86,7 +89,7 @@ $primscounter = $sql->rowCount();
 // Assets count
 $sql = $db->prepare("
     SELECT id
-    FROM assets 
+    FROM fsassets 
 ");
 $sql->execute();
 $assetscounter = $sql->rowCount();
@@ -122,7 +125,7 @@ $assetscounter = $sql->rowCount();
             Total Regions<span class="badge"><?php echo $landscounter; ?></span>
         </li>
         <li class="list-group-item list-group-item-default">
-            Regions Onlines<span class="badge"><?php echo $regionscounter ?></span>
+            Regions Online<span class="badge"><?php echo $regionscounter ?></span>
         </li>
         <li class="list-group-item list-group-item-default">
             Unique Visitors (30 days)<span class="badge"><?php echo $lastmonthscounter; ?></span>
@@ -130,13 +133,16 @@ $assetscounter = $sql->rowCount();
         <li class="list-group-item list-group-item-default">
             Unique Visitors (24 hours)<span class="badge"><?php echo $lastdayscounter; ?></span>
         </li>
-        <li class="list-group-item list-group-item-default">
-            User Online Now<span class="badge"><?php echo $nowonlinescounter; ?></span>
+        </li>
+		<li class="list-group-item list-group-item-default">
+           Total Users Online<span class="badge"><?php echo $nowonlinescounter ; ?></span>
+        </li>       
+	   <li class="list-group-item list-group-item-default">
+            Local Users Online<span class="badge"><?php echo ($nowonlinescounter - $hguserscounter) ; ?></span>
         </li>
         <li class="list-group-item list-group-item-default">
-            HG User Online Now<span class="badge"><?php echo $hguserscounter; ?></span>
-        </li>
-        <li class="list-group-item list-group-item-default">
+            HG Users Online<span class="badge"><?php echo $hguserscounter; ?></span>
+		<li class="list-group-item list-group-item-default">
             Total Objects<span class="badge"><?php echo $objectscounter; ?></span>
         </li>
         <li class="list-group-item list-group-item-default">

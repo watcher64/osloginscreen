@@ -28,8 +28,9 @@ else {$orderby = "RAND()";}
         <?php
         $sql = $db->prepare("
             SELECT regionName, locX, locY
-            FROM regions 
-            ORDER BY ".$orderby."
+            FROM regions
+            WHERE regionName NOT LIKE 'http%'
+			ORDER BY ".$orderby."
         ");
 
         $sql->execute();

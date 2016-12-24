@@ -33,8 +33,16 @@ div#topright
 .flashinfo,
 .logo
 {
-	min-width: 300px;
-	max-width: 300px;
+	min-width: 350px;
+	max-width: 400px;
+	background:rgba(47,79,79.0.8);
+	  filter: alpha(opacity=80);
+  /* IE */
+  -moz-opacity: 0.8;
+  /* Mozilla */
+  opacity: 0.8;
+  /* CSS3 */
+	
 }
 
 img.logo 
