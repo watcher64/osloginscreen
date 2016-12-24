@@ -20,15 +20,9 @@ error_reporting(E_ALL);
 	<link rel="stylesheet" href="./css/bootstrap.min.css">
 	<link rel="stylesheet" href="./css/<?php echo $style; ?>.css">
 	<link rel="stylesheet" href="./css/loginscreen.css">
-    <link rel="stylesheet" href="./css/gh-fork-ribbon.min.css" />
 </head>
 
 <body>
-<div class="github-fork-ribbon-wrapper left">
-    <div class="github-fork-ribbon">
-        <a href="https://github.com/djphil/osloginscreen" target="_blank">Fork me on GitHub</a>
-    </div>
-</div>
 
 <div class="container">
     <img id="bgimage" src="<?php echo getRandomImage(); ?>" />
@@ -40,6 +34,10 @@ error_reporting(E_ALL);
         <div class="regionlist">
             <?php include("./inc/regionlist.php"); ?>
         </div>
+		        <div class="clearfix"></div>
+        <div class="flashinfo">
+            <?php if ($displayflashinfo) {include("./inc/flashinfo.php");} ?>
+        </div>
         <div class="clearfix"></div>
     </div>
     <div class="clearfix"></div>
@@ -48,11 +46,7 @@ error_reporting(E_ALL);
             <?php include("./inc/gridstatus.php"); ?>
         </div>
         <div class="clearfix"></div>
-        <div class="flashinfo">
-            <?php if ($displayflashinfo) {include("./inc/flashinfo.php");} ?>
-        </div>
-        <div class="clearfix"></div>
-    </div>
+		</div>
 </div>
 
 </body>
